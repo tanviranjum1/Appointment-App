@@ -5,7 +5,6 @@ const teacherSchema = mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     courses: [
       {
@@ -15,8 +14,9 @@ const teacherSchema = mongoose.Schema(
     ],
     availability: [
       {
-        day: { type: String, required: true },
-        slots: [{ type: String, required: true }],
+        from: { type: Date, required: true },
+        to: { type: Date, required: true },
+        isBooked: { type: Boolean, default: false },
       },
     ],
   },

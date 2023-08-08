@@ -1,15 +1,22 @@
 const express = require("express");
-const router = express.Router();
 const teachersControllers = require("../controllers/teachers-controllers");
+const protect = require("../middlewares/authMiddleware");
+const router = express.Router();
 
-// router.get("/", teachersControllers.getTeachers);
+router.route("/profile/me").get(protect, teachersControllers.getMyProfile);
 
-// router.get("/:id", teachersControllers.getTeacherById);
+router
+  .route("/profile/availability")
+  .put(protect, teachersControllers.addAvailability);
 
-// router.post("/", teachersControllers.createTeacher);
+router.route("/profile/course").put(protect, teachersControllers.addCourse);
 
-// router.put("/:id", teachersControllers.editTeacherById);
+router
+  .route("/profile/course/:c_id")
+  .delete(protect, teachersControllers.deleteCourse);
 
-// router.delete("/:id", teachersControllers.deleteTeacherById);
+router
+  .route("/profile/availability/:av_id")
+  .delete(protect, teachersControllers.deleteAvailability);
 
 module.exports = router;

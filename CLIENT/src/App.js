@@ -11,6 +11,9 @@ import { DrawerHeader } from "./styles/DrawerHeader";
 import StudentUserList from "./pages/StudentUserList";
 import UnregisteredUserList from "./pages/UnregisteredUserList";
 import UserEdit from "./pages/UserEdit";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import AddAvailability from "./pages/AddAvailability";
+import AddCourse from "./pages/AddCourse";
 
 function App() {
   return (
@@ -23,6 +26,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/teacherdashboard" element={<TeacherDashboard />} />
+            <Route path="/add-availability" element={<AddAvailability />} />
+            <Route path="/add-courses" element={<AddCourse />} />
+
             <Route path="/teacherusers" element={<TeacherUserList />} />
             <Route path="/studentusers" element={<StudentUserList />} />
             <Route

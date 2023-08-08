@@ -43,8 +43,8 @@ app.use((req, res, next) => {
 
 app.use("/api/users", usersRoutes);
 app.use("/api/appointments", appointmentsRoutes);
-// app.use("/api/teachers", teachersRoutes);
-// app.use("/api/students", studentsRoutes);
+app.use("/api/teachers", teachersRoutes);
+app.use("/api/students", studentsRoutes);
 
 app.get("/", async function (req, res) {
   res.send("GET request to homepage");

@@ -81,6 +81,7 @@ const Login = () => {
           value={password}
           onChange={onChange}
           name="password"
+          type="password"
         />
 
         <Button type="submit" variant="contained">
