@@ -16,7 +16,13 @@ import {
   profileDeleteCourseReducer,
   profileAddAvailabilityReducer,
   profileAddCourseReducer,
-} from "./reducers/profileReducers";
+} from "./reducers/teacherReducers";
+import {
+  searchTeacherReducer,
+  listCoursesAndDepartmentsReducer,
+} from "./reducers/studentReducers";
+
+import { appointmentCreateReducer } from "./reducers/appointmentReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -31,6 +37,9 @@ const reducer = combineReducers({
   profileDeleteAvailability: profileDeleteAvailabilityReducer,
   profileAddAvailability: profileAddAvailabilityReducer,
   profileAddCourse: profileAddCourseReducer,
+  searchTeacher: searchTeacherReducer,
+  dropdownCoursesAndDepartments: listCoursesAndDepartmentsReducer,
+  appointmentCreate: appointmentCreateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

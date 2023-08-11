@@ -1,4 +1,4 @@
-const Appoointment = require("../model/Appointment.js");
+const Appointment = require("../model/Appointment.js");
 
 const asyncHandler = require("express-async-handler");
 

@@ -1,6 +1,4 @@
 const Teacher = require("../model/Teacher");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 
 // @route    GET api/teachers/profile/me

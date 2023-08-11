@@ -1,6 +1,6 @@
 import React from "react";
 import { DateTime } from "luxon";
-import { deleteAvailability } from "../actions/profileActions";
+import { deleteAvailability } from "../actions/teacherActions";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../share/Loader";

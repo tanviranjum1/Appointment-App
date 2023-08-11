@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from "react";
-import { getProfile } from "../actions/profileActions";
+import { getProfile } from "../actions/teacherActions";
 import Loader from "../share/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

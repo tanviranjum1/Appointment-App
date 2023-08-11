@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { addCourse } from "../actions/profileActions";
+import React, { useState, useEffect } from "react";
+import { addCourse } from "../actions/teacherActions";
 
 import { Link, useNavigate } from "react-router-dom";
 import { alpha, styled } from "@mui/material/styles";
@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Loader from "../share/Loader";
 
 import { useDispatch, useSelector } from "react-redux";
-import { PROFILE_ADD_COURSE_RESET } from "../constants/profileConstant";
+import { TEACHER_PROFILE_ADD_COURSE_RESET } from "../constants/teacherConstant";
 import { Button } from "@mui/material";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
@@ -75,7 +75,7 @@ const AddCourse = () => {
 
   useEffect(() => {
     if (successCreate) {
-      dispatch({ type: PROFILE_ADD_COURSE_RESET });
+      dispatch({ type: TEACHER_PROFILE_ADD_COURSE_RESET });
       navigate("/teacherdashboard");
     }
   }, [dispatch, successCreate]);

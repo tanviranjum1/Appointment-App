@@ -1,22 +1,22 @@
 import axios from "axios";
 import {
-  PROFILE_REQUEST,
-  PROFILE_SUCCESS,
-  PROFILE_FAIL,
-  PROFILE_DELETE_COURSE_FAIL,
-  PROFILE_DELETE_COURSE_REQUEST,
-  PROFILE_DELETE_AVAILABILITY_SUCCESS,
-  PROFILE_DELETE_AVAILABILITY_FAIL,
-  PROFILE_DELETE_AVAILABILITY_REQUEST,
-  PROFILE_DELETE_COURSE_SUCCESS,
-  PROFILE_ADD_AVAILABILITY_FAIL,
-  PROFILE_ADD_AVAILABILITY_REQUEST,
-  PROFILE_ADD_AVAILABILITY_SUCCESS,
-  PROFILE_ADD_COURSE_FAIL,
-  PROFILE_ADD_COURSE_REQUEST,
-  PROFILE_ADD_COURSE_SUCCESS,
-} from "../constants/profileConstant";
-import { logout } from "../actions/userActions";
+  TEACHER_PROFILE_REQUEST,
+  TEACHER_PROFILE_SUCCESS,
+  TEACHER_PROFILE_FAIL,
+  TEACHER_PROFILE_DELETE_COURSE_FAIL,
+  TEACHER_PROFILE_DELETE_COURSE_REQUEST,
+  TEACHER_PROFILE_DELETE_AVAILABILITY_SUCCESS,
+  TEACHER_PROFILE_DELETE_AVAILABILITY_FAIL,
+  TEACHER_PROFILE_DELETE_AVAILABILITY_REQUEST,
+  TEACHER_PROFILE_DELETE_COURSE_SUCCESS,
+  TEACHER_PROFILE_ADD_AVAILABILITY_FAIL,
+  TEACHER_PROFILE_ADD_AVAILABILITY_REQUEST,
+  TEACHER_PROFILE_ADD_AVAILABILITY_SUCCESS,
+  TEACHER_PROFILE_ADD_COURSE_FAIL,
+  TEACHER_PROFILE_ADD_COURSE_REQUEST,
+  TEACHER_PROFILE_ADD_COURSE_SUCCESS,
+} from "../constants/teacherConstant";
+import { logout } from "./userActions";
 
 // Get current users profile . call it as soon as we go to the dashboard.
 export const getProfile = () => async (dispatch, getState) => {
@@ -25,7 +25,7 @@ export const getProfile = () => async (dispatch, getState) => {
   try {
     // it will know the id from the token.
     // res.data. the route returns  the profile data.
-    dispatch({ type: PROFILE_REQUEST });
+    dispatch({ type: TEACHER_PROFILE_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -46,12 +46,12 @@ export const getProfile = () => async (dispatch, getState) => {
     );
 
     dispatch({
-      type: PROFILE_SUCCESS,
+      type: TEACHER_PROFILE_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: PROFILE_FAIL,
+      type: TEACHER_PROFILE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -65,7 +65,7 @@ export const addCourse = (formData) => async (dispatch, getState) => {
   try {
     console.log("reached here also");
     dispatch({
-      type: PROFILE_ADD_COURSE_REQUEST,
+      type: TEACHER_PROFILE_ADD_COURSE_REQUEST,
     });
 
     //config since sending data.
@@ -87,7 +87,7 @@ export const addCourse = (formData) => async (dispatch, getState) => {
     );
 
     dispatch({
-      type: PROFILE_ADD_COURSE_SUCCESS,
+      type: TEACHER_PROFILE_ADD_COURSE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -101,7 +101,7 @@ export const addCourse = (formData) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: PROFILE_ADD_COURSE_FAIL,
+      type: TEACHER_PROFILE_ADD_COURSE_FAIL,
       payload: message,
     });
   }
@@ -112,7 +112,7 @@ export const addAvailability = (formData) => async (dispatch, getState) => {
   try {
     console.log("reached here also");
     dispatch({
-      type: PROFILE_ADD_AVAILABILITY_REQUEST,
+      type: TEACHER_PROFILE_ADD_AVAILABILITY_REQUEST,
     });
 
     //config since sending data.
@@ -128,13 +128,13 @@ export const addAvailability = (formData) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_BACKEND_URL}/teachers/profile/course`,
+      `${process.env.REACT_APP_BACKEND_URL}/teachers/profile/availability`,
       formData,
       config
     );
 
     dispatch({
-      type: PROFILE_ADD_AVAILABILITY_SUCCESS,
+      type: TEACHER_PROFILE_ADD_AVAILABILITY_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -148,7 +148,7 @@ export const addAvailability = (formData) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: PROFILE_ADD_AVAILABILITY_FAIL,
+      type: TEACHER_PROFILE_ADD_AVAILABILITY_FAIL,
       payload: message,
     });
   }
@@ -158,7 +158,7 @@ export const addAvailability = (formData) => async (dispatch, getState) => {
 export const deleteAvailability = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: PROFILE_DELETE_AVAILABILITY_REQUEST,
+      type: TEACHER_PROFILE_DELETE_AVAILABILITY_REQUEST,
     });
 
     const {
@@ -178,7 +178,7 @@ export const deleteAvailability = (id) => async (dispatch, getState) => {
     );
 
     dispatch({
-      type: PROFILE_DELETE_AVAILABILITY_SUCCESS,
+      type: TEACHER_PROFILE_DELETE_AVAILABILITY_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -192,7 +192,7 @@ export const deleteAvailability = (id) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: PROFILE_DELETE_AVAILABILITY_FAIL,
+      type: TEACHER_PROFILE_DELETE_AVAILABILITY_FAIL,
       payload: message,
     });
   }
@@ -202,7 +202,7 @@ export const deleteAvailability = (id) => async (dispatch, getState) => {
 export const deleteCourse = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: PROFILE_DELETE_COURSE_REQUEST,
+      type: TEACHER_PROFILE_DELETE_COURSE_REQUEST,
     });
 
     const {
@@ -222,7 +222,7 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
     );
 
     dispatch({
-      type: PROFILE_DELETE_COURSE_SUCCESS,
+      type: TEACHER_PROFILE_DELETE_COURSE_SUCCESS,
       payload: data,
     });
   } catch (error) {
@@ -236,7 +236,7 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: PROFILE_DELETE_COURSE_FAIL,
+      type: TEACHER_PROFILE_DELETE_COURSE_FAIL,
       payload: message,
     });
   }

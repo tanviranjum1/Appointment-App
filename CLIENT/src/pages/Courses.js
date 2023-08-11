@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { deleteCourse } from "../actions/profileActions";
+import { deleteCourse } from "../actions/teacherActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../share/Loader";
 import Button from "@mui/material/Button";
