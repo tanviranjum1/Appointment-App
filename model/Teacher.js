@@ -18,7 +18,6 @@ const teacherSchema = mongoose.Schema(
         from: { type: Date, required: true },
         to: { type: Date, required: true },
         isBooked: { type: Boolean, default: false },
-        bookedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Student" },
       },
     ],
   },

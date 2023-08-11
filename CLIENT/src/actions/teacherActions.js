@@ -15,6 +15,9 @@ import {
   TEACHER_PROFILE_ADD_COURSE_FAIL,
   TEACHER_PROFILE_ADD_COURSE_REQUEST,
   TEACHER_PROFILE_ADD_COURSE_SUCCESS,
+  APPOINTMENT_LIST_FOR_TEACHER_FAIL,
+  APPOINTMENT_LIST_FOR_TEACHER_SUCCESS,
+  APPOINTMENT_LIST_FOR_TEACHER_REQUEST,
 } from "../constants/teacherConstant";
 import { logout } from "./userActions";
 
@@ -241,3 +244,42 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const listAppointmentRequestsForTeacher =
+  (obj) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: APPOINTMENT_LIST_FOR_TEACHER_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/teachers/appointments`,
+        obj,
+        config
+      );
+
+      dispatch({
+        type: APPOINTMENT_LIST_FOR_TEACHER_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: APPOINTMENT_LIST_FOR_TEACHER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

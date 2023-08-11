@@ -71,7 +71,9 @@ const UserEdit = () => {
 
   return (
     <>
-      <button onClick={() => navigate(-1)}>Go back</button>
+      <Button onClick={() => navigate(-1)} variant="outlined">
+        Go back
+      </Button>
       <>
         <h1>Edit User</h1>
         {loadingUpdate && <Loader />}

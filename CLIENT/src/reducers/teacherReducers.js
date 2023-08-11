@@ -16,6 +16,9 @@ import {
   TEACHER_PROFILE_ADD_COURSE_REQUEST,
   TEACHER_PROFILE_ADD_COURSE_SUCCESS,
   TEACHER_PROFILE_ADD_COURSE_RESET,
+  APPOINTMENT_LIST_FOR_TEACHER_FAIL,
+  APPOINTMENT_LIST_FOR_TEACHER_REQUEST,
+  APPOINTMENT_LIST_FOR_TEACHER_SUCCESS,
 } from "../constants/teacherConstant";
 
 export const profileReducer = (state = { profile: null }, action) => {
@@ -85,6 +88,25 @@ export const profileAddCourseReducer = (state = { course: {} }, action) => {
       return { loading: false, error: action.payload };
     case TEACHER_PROFILE_ADD_COURSE_RESET:
       return { course: {} };
+    default:
+      return state;
+  }
+};
+
+export const appointmentListForTeacherReducer = (
+  state = { appointments: [] },
+  action
+) => {
+  switch (action.type) {
+    case APPOINTMENT_LIST_FOR_TEACHER_REQUEST:
+      return { loading: true, appointments: [] };
+    case APPOINTMENT_LIST_FOR_TEACHER_SUCCESS:
+      return {
+        loading: false,
+        appointments: action.payload,
+      };
+    case APPOINTMENT_LIST_FOR_TEACHER_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

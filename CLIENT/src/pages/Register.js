@@ -30,6 +30,9 @@ const Register = () => {
   });
   const [message, setMessage] = useState(null);
 
+  const [department, setDepartment] = useState("");
+  const [studentId, setStudentId] = useState("");
+
   const { name, email, password, password2, role } = formData;
 
   // userInfo null if not loggedin.
@@ -69,9 +72,10 @@ const Register = () => {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+        margin: "auto",
+        width: "40%",
+        display: "grid",
+        gridTemplateColumns: "1fr",
       }}
     >
       <h1 className="my-3">Register</h1>
@@ -126,6 +130,30 @@ const Register = () => {
           </Select>
           <FormHelperText>Required</FormHelperText>
         </FormControl>
+
+        {role == "student" && (
+          <>
+            <TextField
+              id="studentId"
+              type="text"
+              name="studentId"
+              onChange={(event) => setStudentId(event.target.value)}
+              value={studentId}
+              label="Student ID"
+              variant="outlined"
+            />
+
+            <TextField
+              id="department"
+              type="text"
+              name="department"
+              onChange={(event) => setDepartment(event.target.value)}
+              value={department}
+              label="Department"
+              variant="outlined"
+            />
+          </>
+        )}
 
         <TextField
           id="password"

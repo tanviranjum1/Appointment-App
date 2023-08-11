@@ -19,4 +19,8 @@ router
   .route("/profile/availability/:av_id")
   .delete(protect, teachersControllers.deleteAvailability);
 
+router
+  .route("/appointments")
+  .post(protect, teachersControllers.getAppointmentRequestsForLoggedInTeacher);
+
 module.exports = router;

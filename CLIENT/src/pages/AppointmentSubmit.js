@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -6,21 +6,32 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { createAppointment } from "../actions/appointmentActions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { updateTeacherAvailability } from "../actions/studentActions";
 
 // agenda, from, to, teacher name, course title.
 // store to teacher table. isBooked = true.
 // appointment table add request.
-const AppointmentRequest = () => {
+const AppointmentSubmit = () => {
   const location = useLocation();
   const propsData = location.state;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { s_id } = useParams();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    }
+  }, [dispatch, userInfo]);
 
   dayjs.extend(utc);
 
@@ -38,10 +49,34 @@ const AppointmentRequest = () => {
   const { agenda, from, to, teachername, teachercourses, selectedcourse } =
     formData;
 
-  const submitHandler = () => {
+  const submitHandler = async (event) => {
+    event.preventDefault();
     console.log(formData);
 
-    dispatch(createAppointment(formData));
+    // const { s_id } = s_id;
+
+    // send edit request to teacher slot.
+    const editSlotData = {
+      teacherId: propsData.teacherId,
+      slotId: s_id,
+    };
+    console.log(editSlotData);
+
+    await dispatch(updateTeacherAvailability(editSlotData));
+
+    const submitData = {
+      agenda,
+      start: from,
+      end: to,
+      courseTitle: selectedcourse,
+      studentUserId: userInfo._id,
+      teacherUserId: propsData.teacherUserId._id,
+      status: "Submitted",
+    };
+
+    console.log("submitData", submitData);
+
+    await dispatch(createAppointment(submitData));
   };
 
   const changeHandler = (event) => {
@@ -115,6 +150,15 @@ const AppointmentRequest = () => {
       />
 
       <TextField
+        id="standard-teachername"
+        label="Teacher Available Date"
+        type="text"
+        variant="standard"
+        value={dayjs(from).format("YYYY-MM-DD")}
+        name="availabledate"
+      />
+
+      <TextField
         id="standard-from"
         type="text"
         variant="standard"
@@ -137,4 +181,4 @@ const AppointmentRequest = () => {
   );
 };
 
-export default AppointmentRequest;
+export default AppointmentSubmit;

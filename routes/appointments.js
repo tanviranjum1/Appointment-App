@@ -8,7 +8,7 @@ router.get("/:id", appointmentsControllers.getAppointmentById);
 
 router.post("/", appointmentsControllers.createAppointment);
 
-router.put("/:id", appointmentsControllers.editAppointmentById);
+router.patch("/:id", appointmentsControllers.updateAppointmentById);
 
 router.delete("/:id", appointmentsControllers.deleteAppointmentById);
 

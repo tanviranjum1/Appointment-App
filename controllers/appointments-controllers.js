@@ -28,39 +28,21 @@ const deleteAppointmentById = asyncHandler(async (req, res) => {
     .catch((err) => res.status(404).json({ error: "appointment not found" }));
 });
 
-const editAppointmentById = asyncHandler(async (req, res) => {
+const updateAppointmentById = asyncHandler(async (req, res) => {
   const appointmentId = req.params.id;
 
-  const {
-    customer,
-    appointmentItems,
-    itemsCount,
-    entryBy,
-    memoDate,
-    totalPrice,
-    paymentMethod,
-    isPaid,
-    isDelivered,
-  } = req.body;
+  const { status } = req.body;
 
   let appointment;
   try {
-    appointment = await Appointment.findById(appointmentId);
+    appointment = await Appointment.findById({ _id: appointmentId });
   } catch (err) {
     res.status(404).json({ error: "appointment not found to edit" });
   }
 
   try {
     if (appointment) {
-      appointment.customer = customer;
-      appointment.appointmentItems = appointmentItems;
-      appointment.itemsCount = itemsCount;
-      appointment.entryBy = entryBy;
-      appointment.memoDate = memoDate;
-      appointment.totalPrice = totalPrice;
-      appointment.paymentMethod = paymentMethod;
-      appointment.isPaid = isPaid;
-      appointment.isDelivered = isDelivered;
+      appointment.status = status;
 
       const editedappointment = await appointment.save();
       res.status(200).json(editedappointment);
@@ -72,27 +54,23 @@ const editAppointmentById = asyncHandler(async (req, res) => {
 
 const createAppointment = asyncHandler(async (req, res) => {
   const {
-    customer,
-    appointmentItems,
-    itemsCount,
-    entryBy,
-    memoDate,
-    totalPrice,
-    paymentMethod,
-    isPaid,
-    isDelivered,
+    status,
+    studentUserId,
+    teacherUserId,
+    end,
+    start,
+    courseTitle,
+    agenda,
   } = req.body;
 
   const createdappointment = new Appointment({
-    customer,
-    appointmentItems,
-    itemsCount,
-    entryBy,
-    memoDate,
-    totalPrice,
-    paymentMethod,
-    isPaid,
-    isDelivered,
+    status,
+    studentUserId,
+    teacherUserId,
+    end,
+    start,
+    courseTitle,
+    agenda,
   });
 
   try {
@@ -104,8 +82,20 @@ const createAppointment = asyncHandler(async (req, res) => {
   }
 });
 
+const getAppointmentsSubmittedbyStudent = asyncHandler(async (req, res) => {
+  try {
+    const appointment = await Appointment.findById({
+      studentUserId: req.user.id,
+    });
+    res.json(appointment);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
 exports.getAppointments = getAppointments;
 exports.getAppointmentById = getAppointmentById;
 exports.createAppointment = createAppointment;
-exports.editAppointmentById = editAppointmentById;
+exports.updateAppointmentById = updateAppointmentById;
 exports.deleteAppointmentById = deleteAppointmentById;
+exports.getAppointmentsSubmittedbyStudent = getAppointmentsSubmittedbyStudent;

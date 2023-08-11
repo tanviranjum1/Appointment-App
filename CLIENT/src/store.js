@@ -16,13 +16,18 @@ import {
   profileDeleteCourseReducer,
   profileAddAvailabilityReducer,
   profileAddCourseReducer,
+  appointmentListForTeacherReducer,
 } from "./reducers/teacherReducers";
 import {
   searchTeacherReducer,
   listCoursesAndDepartmentsReducer,
+  studentUpdateTeacherSlotReducer,
 } from "./reducers/studentReducers";
 
-import { appointmentCreateReducer } from "./reducers/appointmentReducers";
+import {
+  appointmentCreateReducer,
+  appointmentUpdateReducer,
+} from "./reducers/appointmentReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -40,6 +45,9 @@ const reducer = combineReducers({
   searchTeacher: searchTeacherReducer,
   dropdownCoursesAndDepartments: listCoursesAndDepartmentsReducer,
   appointmentCreate: appointmentCreateReducer,
+  studentUpdateSlot: studentUpdateTeacherSlotReducer,
+  appointmentListForTeacher: appointmentListForTeacherReducer,
+  appointmentUpdate: appointmentUpdateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

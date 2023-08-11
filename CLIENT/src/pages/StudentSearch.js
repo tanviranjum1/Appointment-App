@@ -159,12 +159,14 @@ const StudentSearch = () => {
                       row.availability.map((slot) => {
                         return slot.isBooked === false ? (
                           <Link
-                            to={`/appointment-request/${row._id}`}
+                            to={`/appointment-request/${slot._id}`}
                             key={slot._id}
                             state={{
                               teacherName: row.userId.name,
                               from: slot.from,
                               to: slot.to,
+                              teacherUserId: row.userId,
+                              teacherId: row._id,
                               teacherCourse:
                                 course == "" || course == null
                                   ? row.courses.map(

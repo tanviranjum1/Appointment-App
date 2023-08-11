@@ -15,7 +15,8 @@ import TeacherDashboard from "./pages/TeacherDashboard";
 import AddAvailability from "./pages/AddAvailability";
 import AddCourse from "./pages/AddCourse";
 import StudentSearch from "./pages/StudentSearch";
-import AppointmentRequest from "./pages/AppointmentRequest";
+import AppointmentSubmit from "./pages/AppointmentSubmit";
+import AppointmentRequestList from "./pages/AppointmentRequestList";
 
 function App() {
   return (
@@ -33,11 +34,15 @@ function App() {
             <Route path="/add-courses" element={<AddCourse />} />
             <Route path="/student-search" element={<StudentSearch />} />
             <Route
-              path="/appointment-request/:tid"
-              element={<AppointmentRequest />}
+              path="/appointment-submit/:s_id"
+              element={<AppointmentSubmit />}
             />
             <Route path="/teacherusers" element={<TeacherUserList />} />
             <Route path="/studentusers" element={<StudentUserList />} />
+            <Route
+              path="/teachers/appointments"
+              element={<AppointmentRequestList />}
+            />
             <Route
               path="/unregisteredusers"
               element={<UnregisteredUserList />}

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./User");
 
 const Schema = mongoose.Schema;
 
@@ -14,12 +15,15 @@ const appointmentSchema = new Schema(
     },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    studentId: {
+    studentUserId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    teacherId: {
+    studentId: {
+      type: String,
+    },
+    teacherUserId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
@@ -27,10 +31,7 @@ const appointmentSchema = new Schema(
     status: {
       type: String,
       required: true,
-    },
-    appointmentDate: {
-      type: Date,
-      required: true,
+      enum: ["Submitted", "Approved", "Rejected"],
     },
   },
   {

@@ -1,5 +1,6 @@
 const Teacher = require("../model/Teacher");
 const asyncHandler = require("express-async-handler");
+const Appointment = require("../model/Appointment.js");
 
 // @route    GET api/teachers/profile/me
 // @desc     Get current users profile
@@ -95,7 +96,7 @@ const addAvailability = asyncHandler(async (req, res) => {
   }
 });
 
-// @route    DELETE api/teachers/profile/availability/:av_id
+// @route    DELETE api/teachers/profile/deleteAvailability/:av_id
 // @desc     Delete an availability from teacher
 // @access   Private
 const deleteAvailability = asyncHandler(async (req, res) => {
@@ -114,10 +115,39 @@ const deleteAvailability = asyncHandler(async (req, res) => {
   }
 });
 
+// logged in user, get appointments
+const getAppointmentRequestsForLoggedInTeacher = asyncHandler(
+  async (req, res) => {
+    try {
+      const { status } = req.body;
+
+      // Construct the query object with common conditions
+      const query = {
+        teacherUserId: req.user.id,
+      };
+
+      if (status != "") {
+        query.status = status;
+      } else {
+        query.status = "Submitted";
+      }
+      const appointments = await Appointment.find(query).populate(
+        "studentUserId",
+        "name"
+      );
+
+      res.json(appointments);
+    } catch (err) {
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 module.exports = {
   getMyProfile,
   addCourse,
   deleteCourse,
   addAvailability,
   deleteAvailability,
+  getAppointmentRequestsForLoggedInTeacher,
 };

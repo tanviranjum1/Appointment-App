@@ -5,6 +5,10 @@ import {
   STUDENT_SEARCH_TEACHER_FAIL,
   STUDENT_SEARCH_TEACHER_REQUEST,
   STUDENT_SEARCH_TEACHER_SUCCESS,
+  STUDENT_UPDATE_AVAILABILITY_REQUEST,
+  STUDENT_UPDATE_AVAILABILITY_SUCCESS,
+  STUDENT_UPDATE_AVAILABILITY_FAIL,
+  STUDENT_UPDATE_AVAILABILITY_RESET,
 } from "../constants/studentConstant";
 
 export const listCoursesAndDepartmentsReducer = (
@@ -37,6 +41,24 @@ export const searchTeacherReducer = (state = { teachers: [] }, action) => {
       };
     case STUDENT_SEARCH_TEACHER_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const studentUpdateTeacherSlotReducer = (
+  state = { slot: {} },
+  action
+) => {
+  switch (action.type) {
+    case STUDENT_UPDATE_AVAILABILITY_REQUEST:
+      return { loading: true };
+    case STUDENT_UPDATE_AVAILABILITY_SUCCESS:
+      return { loading: false, success: true };
+    case STUDENT_UPDATE_AVAILABILITY_FAIL:
+      return { loading: false, error: action.payload };
+    case STUDENT_UPDATE_AVAILABILITY_RESET:
+      return { slot: {} };
     default:
       return state;
   }

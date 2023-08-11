@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("./User");
 
 const studentSchema = mongoose.Schema(
   {
@@ -8,13 +7,13 @@ const studentSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    departmentId: {
+    department: {
       type: String,
-      required: [true, "Please add a password"],
+      required: [true, "Please add a department"],
     },
     studentId: {
       type: String,
-      required: [true, "Please add role"],
+      required: [true, "Please add student Id"],
     },
   },
   {

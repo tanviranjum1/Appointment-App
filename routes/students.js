@@ -9,14 +9,10 @@ router
   .route("/getCoursesAndDepartments")
   .get(studentsControllers.getCoursesAndDepartments);
 
-// router.get("/", studentsControllers.getStudents);
+router
+  .route("/updateTeacherAvailability/:av_id")
+  .patch(studentsControllers.updateTeacherAvailability);
 
-// router.get("/:id", studentsControllers.getStudentById);
-
-// router.post("/", studentsControllers.createStudent);
-
-// router.put("/:id", studentsControllers.editStudentById);
-
-// router.delete("/:id", studentsControllers.deleteStudentById);
+router.route("/profile").post(studentsControllers.addStudentProfile);
 
 module.exports = router;
