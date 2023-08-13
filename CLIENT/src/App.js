@@ -4,12 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./share/Footer";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import TeacherUserList from "./pages/TeacherUserList";
 
 import Box from "@mui/material/Box";
 import { DrawerHeader } from "./styles/DrawerHeader";
-import StudentUserList from "./pages/StudentUserList";
-import UnregisteredUserList from "./pages/UnregisteredUserList";
 import UserEdit from "./pages/UserEdit";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import AddAvailability from "./pages/AddAvailability";
@@ -17,6 +14,9 @@ import AddCourse from "./pages/AddCourse";
 import StudentSearch from "./pages/StudentSearch";
 import AppointmentSubmit from "./pages/AppointmentSubmit";
 import AppointmentRequestList from "./pages/AppointmentRequestList";
+import UserList from "./pages/UserList";
+import StudentAppointmentList from "./pages/StudentAppointmentList";
+import UserCreate from "./pages/UserCreate";
 
 function App() {
   return (
@@ -37,16 +37,16 @@ function App() {
               path="/appointment-submit/:s_id"
               element={<AppointmentSubmit />}
             />
-            <Route path="/teacherusers" element={<TeacherUserList />} />
-            <Route path="/studentusers" element={<StudentUserList />} />
             <Route
-              path="/teachers/appointments"
+              path="/student/appointments"
+              element={<StudentAppointmentList />}
+            />
+            <Route path="/users" element={<UserList />} />
+            <Route
+              path="/teacher/appointments"
               element={<AppointmentRequestList />}
             />
-            <Route
-              path="/unregisteredusers"
-              element={<UnregisteredUserList />}
-            />
+            <Route path="/user/create" element={<UserCreate />} />
             <Route path="/user/:id/edit" element={<UserEdit />} />
           </Routes>
         </Box>

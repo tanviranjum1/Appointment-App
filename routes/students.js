@@ -13,6 +13,10 @@ router
   .route("/updateTeacherAvailability/:av_id")
   .patch(studentsControllers.updateTeacherAvailability);
 
-router.route("/profile").post(studentsControllers.addStudentProfile);
+router
+  .route("/appointments")
+  .get(protect, studentsControllers.getAppointmentsOfStudent);
+
+router.route("/createProfile").post(studentsControllers.createProfile);
 
 module.exports = router;

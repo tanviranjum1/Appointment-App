@@ -16,7 +16,6 @@ const Courses = ({ courses }) => {
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      // DELETE PRODUCTS
       dispatch(deleteCourse(id));
     }
   };

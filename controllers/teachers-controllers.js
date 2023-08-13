@@ -7,15 +7,10 @@ const Appointment = require("../model/Appointment.js");
 // @access   Private
 const getMyProfile = asyncHandler(async (req, res) => {
   try {
-    console.log("userid", req.user.id);
-
     const profile = await Teacher.findOne({
       userId: req.user.id,
     });
 
-    if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
-    }
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -31,13 +26,11 @@ const addCourse = asyncHandler(async (req, res) => {
     let teacher = await Teacher.findOne({ userId: req.user.id });
 
     if (!teacher) {
-      // If teacher not found, create a new teacher record
       teacher = new Teacher({
         userId: req.user.id,
-        courses: [req.body], // Assuming req.body contains course data
+        courses: [req.body],
       });
     } else {
-      // If teacher is found, add the course to existing teacher
       teacher.courses.unshift(req.body);
     }
 

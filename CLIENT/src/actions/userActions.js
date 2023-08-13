@@ -107,6 +107,76 @@ export const register = (name, email, password, role) => async (dispatch) => {
   }
 };
 
+export const userCreateAction =
+  (name, email, password, role) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_CREATE_REQUEST,
+      });
+
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/users`,
+        { name, email, password, role },
+        config
+      );
+
+      dispatch({
+        type: USER_CREATE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_CREATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const listUsers = (roleObj) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/users/list`,
+      roleObj,
+      config
+    );
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const listTeacherUsers = () => async (dispatch) => {
   try {
     dispatch({
@@ -278,6 +348,50 @@ export const updateUser = (user) => async (dispatch, getState) => {
       `${process.env.REACT_APP_BACKEND_URL}/users/${user._id}`,
       user,
       {}
+    );
+
+    dispatch({
+      type: USER_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const adminRegisterUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/users/admin-registeruser`,
+      { id },
+      config
     );
 
     dispatch({

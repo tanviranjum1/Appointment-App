@@ -8,8 +8,13 @@ import {
   STUDENT_SEARCH_TEACHER_SUCCESS,
   STUDENT_UPDATE_AVAILABILITY_FAIL,
   STUDENT_UPDATE_AVAILABILITY_REQUEST,
-  STUDENT_UPDATE_AVAILABILITY_RESET,
   STUDENT_UPDATE_AVAILABILITY_SUCCESS,
+  STUDENT_LIST_APPOINTMENT_FAIL,
+  STUDENT_LIST_APPOINTMENT_SUCCESS,
+  STUDENT_LIST_APPOINTMENT_REQUEST,
+  STUDENT_CREATE_PROFILE_REQUEST,
+  STUDENT_CREATE_PROFILE_SUCCESS,
+  STUDENT_CREATE_PROFILE_FAIL,
 } from "../constants/studentConstant";
 import { logout } from "./userActions";
 
@@ -97,6 +102,77 @@ export const updateTeacherAvailability =
       dispatch({
         type: STUDENT_UPDATE_AVAILABILITY_FAIL,
         payload: message,
+      });
+    }
+  };
+
+export const listAppointmentRequestsOfStudent =
+  (obj) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: STUDENT_LIST_APPOINTMENT_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/students/appointments`,
+        config
+      );
+
+      dispatch({
+        type: STUDENT_LIST_APPOINTMENT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: STUDENT_LIST_APPOINTMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const createStudentProfile =
+  ({ studentId, department, userId }) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: STUDENT_CREATE_PROFILE_REQUEST,
+      });
+
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/students/createProfile`,
+        { studentId, department, userId },
+        config
+      );
+
+      dispatch({
+        type: STUDENT_CREATE_PROFILE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: STUDENT_CREATE_PROFILE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
       });
     }
   };

@@ -22,6 +22,8 @@ import {
   searchTeacherReducer,
   listCoursesAndDepartmentsReducer,
   studentUpdateTeacherSlotReducer,
+  studentAppointmentListReducer,
+  studentProfileCreateReducer,
 } from "./reducers/studentReducers";
 
 import {
@@ -48,6 +50,8 @@ const reducer = combineReducers({
   studentUpdateSlot: studentUpdateTeacherSlotReducer,
   appointmentListForTeacher: appointmentListForTeacherReducer,
   appointmentUpdate: appointmentUpdateReducer,
+  studentAppointmentList: studentAppointmentListReducer,
+  studentProfileCreate: studentProfileCreateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

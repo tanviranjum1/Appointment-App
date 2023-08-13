@@ -4,21 +4,20 @@ const {
   registerUser,
   loginUser,
   getMe,
-  getTeacherUsers,
-  getStudentUsers,
-  getRegistrationRequestUsers,
+  getUsers,
   getUserById,
   editUserById,
   deleteUserById,
+  adminRegisterUser,
 } = require("../controllers/users-controllers.js");
-// const { protect } = require('../middleware/authMiddleware')
+const protect = require("../middlewares/authMiddleware");
 
 router.post("/", registerUser);
 router.post("/login", loginUser);
-router.get("/me", getMe);
-router.get("/unregistered", getRegistrationRequestUsers);
-router.get("/teacher", getTeacherUsers);
-router.get("/student", getStudentUsers);
+router.route("/me").get(protect, getMe);
+
+router.route("/admin-registeruser").patch(protect, adminRegisterUser);
+router.route("/list").post(protect, getUsers);
 
 router.delete("/:id", deleteUserById);
 router.put("/:id", editUserById);

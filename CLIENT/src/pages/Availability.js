@@ -19,7 +19,6 @@ const Availability = ({ availability }) => {
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
-      // DELETE PRODUCTS
       dispatch(deleteAvailability(id));
     }
   };

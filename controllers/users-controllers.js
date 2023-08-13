@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
     role,
-    isRegistered: true,
+    isRegistered: false,
   });
 
   if (user) {
@@ -86,37 +86,30 @@ const generateToken = (id) => {
   });
 };
 
-const getRegistrationRequestUsers = asyncHandler(async (req, res) => {
-  try {
-    const users = await User.find({ isRegistered: false });
-    res.json(users);
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-});
-
-const getTeacherUsers = asyncHandler(async (req, res) => {
-  try {
-    const users = await User.find({ role: "teacher", isRegistered: true });
-    res.json(users);
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-});
-
-const getStudentUsers = asyncHandler(async (req, res) => {
-  try {
-    const users = await User.find({ role: "student", isRegistered: true });
-    res.json(users);
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-});
-
 const getUserById = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json(user);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
+// logged in user, get appointments
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    // Construct the query object with common conditions
+    const query = {};
+
+    if (role != "") {
+      query.role = role;
+    }
+
+    const users = await User.find(query).select("-password");
+
+    res.json(users);
   } catch (err) {
     res.status(500).send("Server Error");
   }
@@ -149,6 +142,29 @@ const editUserById = asyncHandler(async (req, res) => {
   }
 });
 
+const adminRegisterUser = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      res.status(404).json({ error: "user not found to edit" });
+    }
+    user.isRegistered = true;
+
+    try {
+      const editeduser = await user.save();
+      res.status(200).json(editeduser);
+    } catch (err) {
+      console.log("Server error", err);
+    }
+  } catch (findError) {
+    console.error("Error while finding user:", findError);
+    res.status(500).json({ error: "Error while finding user" });
+  }
+});
+
 const deleteUserById = asyncHandler(async (req, res) => {
   User.findByIdAndRemove(req.params.id)
     .then((user) => res.json({ mgs: "user removed aaaaa" + user }))
@@ -159,10 +175,9 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
-  getRegistrationRequestUsers,
-  getStudentUsers,
-  getTeacherUsers,
+  getUsers,
   getUserById,
   editUserById,
   deleteUserById,
+  adminRegisterUser,
 };

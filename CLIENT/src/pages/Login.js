@@ -3,15 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import Loader from "../share/Loader";
-import Message from "../share/Message";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-
-// import { Form, Button, Row, Col } from "react-bootstrap";
-// import FormContainer from "../../share/FormContainer";
-// import { LinkContainer } from "react-router-bootstrap";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,7 +49,7 @@ const Login = () => {
       }}
     >
       <h1 className="my-3">Log In</h1>
-      {/* {error && <Message variant="danger">{error}</Message>} */}
+      {error && <h1>{error}</h1>}
       {loading && <Loader />}
       <Box
         component="form"

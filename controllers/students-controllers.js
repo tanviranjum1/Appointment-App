@@ -1,3 +1,4 @@
+const Appointment = require("../model/Appointment");
 const Student = require("../model/Student");
 const Teacher = require("../model/Teacher");
 const asyncHandler = require("express-async-handler");
@@ -67,6 +68,17 @@ const getCoursesAndDepartments = asyncHandler(async (req, res) => {
   }
 });
 
+// logged in user, get appointments of student using token id.
+const getAppointmentsOfStudent = asyncHandler(async (req, res) => {
+  try {
+    const appointments = await Appointment.find({ studentUserId: req.user.id });
+
+    res.json(appointments);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route    PATCH api/students/updateTeacherAvailability/:av_id
 // @desc     Update availability booked to true.
 // @access   Private
@@ -93,12 +105,13 @@ const updateTeacherAvailability = asyncHandler(async (req, res) => {
   }
 });
 
-const addStudentProfile = asyncHandler(async (req, res) => {
-  const { studentId, department } = req.body;
+const createProfile = asyncHandler(async (req, res) => {
+  const { studentId, department, userId } = req.body;
 
   const createdStudentProfile = new Student({
     studentId,
     department,
+    userId,
   });
 
   try {
@@ -106,7 +119,7 @@ const addStudentProfile = asyncHandler(async (req, res) => {
     res.status(201).json(student);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error" + appointment);
+    res.status(500).send("Server Error");
   }
 });
 
@@ -114,5 +127,6 @@ module.exports = {
   searchTeacher,
   getCoursesAndDepartments,
   updateTeacherAvailability,
-  addStudentProfile,
+  createProfile,
+  getAppointmentsOfStudent,
 };

@@ -13,6 +13,99 @@ import { useDispatch, useSelector } from "react-redux";
 import { TEACHER_PROFILE_ADD_COURSE_RESET } from "../constants/teacherConstant";
 import { Button } from "@mui/material";
 
+const AddCourse = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    department: "",
+    courseTitle: "",
+  });
+
+  const { department, courseTitle } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const profileAddCourse = useSelector((state) => state.profileAddCourse);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    create: successCreate,
+  } = profileAddCourse;
+
+  useEffect(() => {
+    if (successCreate) {
+      dispatch({ type: TEACHER_PROFILE_ADD_COURSE_RESET });
+      navigate("/teacherdashboard");
+    }
+  }, [dispatch, successCreate]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(addCourse(formData));
+  };
+
+  return (
+    <>
+      <h1>Add A Course</h1>
+      {loadingCreate ? (
+        <Loader />
+      ) : errorCreate ? (
+        <h1>{errorCreate}</h1>
+      ) : (
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1 },
+            display: "flex",
+            flexDirection: "column",
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={submitHandler}
+          width="40%"
+        >
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="bootstrap-input">
+              Department Name
+            </InputLabel>
+            <BootstrapInput
+              id="component-department"
+              type="text"
+              name="department"
+              required
+              value={department}
+              onChange={(e) => onChange(e)}
+            />
+          </FormControl>
+
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="bootstrap-input">
+              Course Name
+            </InputLabel>
+            <BootstrapInput
+              id="component-course"
+              type="text"
+              name="courseTitle"
+              required
+              value={courseTitle}
+              onChange={(e) => onChange(e)}
+            />
+          </FormControl>
+
+          <div>
+            <Button type="submit" variant="contained">
+              Add
+            </Button>
+            <Link to="/teacherdashboard">Go Back</Link>
+          </div>
+        </Box>
+      )}
+    </>
+  );
+};
+
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
     marginTop: theme.spacing(3),
@@ -50,98 +143,5 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
-const AddCourse = () => {
-  const [formData, setFormData] = useState({
-    department: "",
-    courseTitle: "",
-  });
-
-  const { department, courseTitle } = formData;
-
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const profileAddCourse = useSelector((state) => state.profileAddCourse);
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    course: createdCourse,
-  } = profileAddCourse;
-
-  useEffect(() => {
-    if (successCreate) {
-      dispatch({ type: TEACHER_PROFILE_ADD_COURSE_RESET });
-      navigate("/teacherdashboard");
-    }
-  }, [dispatch, successCreate]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    dispatch(addCourse(formData));
-  };
-
-  return (
-    <div>
-      <h1 className="large text-primary">Add A Course</h1>
-
-      <div>
-        {loadingCreate ? (
-          <Loader />
-        ) : errorCreate ? (
-          <h1>{errorCreate}</h1>
-        ) : (
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1 },
-            }}
-            noValidate
-            autoComplete="off"
-            onSubmit={submitHandler}
-          >
-            <FormControl variant="standard">
-              <InputLabel shrink htmlFor="bootstrap-input">
-                Department Name
-              </InputLabel>
-              <BootstrapInput
-                id="component-department"
-                type="text"
-                name="department"
-                required
-                value={department}
-                onChange={(e) => onChange(e)}
-              />
-            </FormControl>
-
-            <FormControl variant="standard">
-              <InputLabel shrink htmlFor="bootstrap-input">
-                Course Name
-              </InputLabel>
-              <BootstrapInput
-                id="component-course"
-                type="text"
-                name="courseTitle"
-                required
-                value={courseTitle}
-                onChange={(e) => onChange(e)}
-              />
-            </FormControl>
-
-            <Button type="submit" variant="outlined">
-              Add
-            </Button>
-            <Link to="/teacherdashboard">Go Back</Link>
-          </Box>
-        )}
-      </div>
-    </div>
-  );
-};
 
 export default AddCourse;

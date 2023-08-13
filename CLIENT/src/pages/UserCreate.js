@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../actions/userActions";
+import { userCreateAction } from "../actions/userActions";
+import { createStudentProfile } from "../actions/studentActions";
 import Loader from "../share/Loader";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 
-const Register = () => {
+const UserCreate = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, userInfo, success } = userRegister;
+  const { loading, error, userInfo } = userRegister;
+
+  const userCreate = useSelector((state) => state.userCreate);
+  const {
+    loading: loadingUserCreate,
+    error: errorUserCreate,
+    user,
+    success: successUserCreate,
+  } = userCreate;
 
   const studentProfileCreate = useSelector(
     (state) => state.studentProfileCreate
@@ -49,14 +57,14 @@ const Register = () => {
       navigate("/");
     } else if (role === "student") {
       const profileCreator = async () => {
-        console.log("user_id", userInfo._id);
+        console.log("user_id", user._id);
         await dispatch(
-          register({ studentId, department, userId: userInfo._id })
+          createStudentProfile({ studentId, department, userId: user._id })
         );
       };
       profileCreator();
     }
-  }, [userInfo, success]);
+  }, [userInfo, successUserCreate]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -72,7 +80,7 @@ const Register = () => {
       setMessage("Passwords don't match");
     } else {
       try {
-        await dispatch(register(name, email, password, role));
+        await dispatch(userCreateAction(name, email, password, role));
         navigate("/users");
       } catch (error) {
         console.error("Error:", error);
@@ -94,11 +102,8 @@ const Register = () => {
       onSubmit={onSubmit}
       width="40%"
     >
-      <h1>Register</h1>
-      {error && <h1>{error}</h1>}
+      <h1>Create New User</h1>
       {loading && <Loader />}
-      {message && <h1>{message}</h1>}
-
       <TextField
         id="name"
         type="name"
@@ -129,9 +134,6 @@ const Register = () => {
           label="Role *"
           onChange={onChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
           <MenuItem value="teacher">Teacher</MenuItem>
           <MenuItem value="student">Student</MenuItem>
         </Select>
@@ -186,19 +188,11 @@ const Register = () => {
       <div>
         <Button type="submit" variant="contained" size="large">
           {" "}
-          Sign Up
+          Create
         </Button>
       </div>
-
-      <p>
-        Already have an account?{" "}
-        <span>
-          {" "}
-          <Link to={`/login`}>Log In</Link>
-        </span>
-      </p>
     </Box>
   );
 };
 
-export default Register;
+export default UserCreate;

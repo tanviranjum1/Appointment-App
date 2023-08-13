@@ -25,7 +25,6 @@ const StudentSearch = () => {
   const [course, setCourse] = useState("");
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const dropdownCoursesAndDepartments = useSelector(
