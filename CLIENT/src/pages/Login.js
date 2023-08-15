@@ -29,7 +29,10 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // DISPATCH LOGIN
+    if (email == "" || password == "") {
+      alert("Please add to the required field");
+      return;
+    }
     dispatch(login(email, password));
   };
 
@@ -41,57 +44,58 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+    <Box
+      component="form"
+      noValidate
+      autoComplete="off"
+      onSubmit={submitHandler}
+      sx={{
+        margin: "auto",
+        display: "grid",
+        gap: "20px",
       }}
+      width="40%"
     >
-      <h1 className="my-3">Log In</h1>
+      <h1>Log In</h1>
       {error && <h1>{error}</h1>}
       {loading && <Loader />}
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={submitHandler}
-        sx={{
-          "& > :not(style)": { m: 2 },
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <TextField
-          id="email"
-          label="Email"
-          value={email}
-          onChange={onChange}
-          name="email"
-        />
 
-        <TextField
-          id="password"
-          label="Password"
-          value={password}
-          onChange={onChange}
-          name="password"
-          type="password"
-        />
+      <TextField
+        id="email"
+        label="Email"
+        value={email}
+        onChange={onChange}
+        name="email"
+        type="email"
+        fullWidth
+        required
+      />
 
+      <TextField
+        id="password"
+        label="Password"
+        value={password}
+        onChange={onChange}
+        name="password"
+        type="password"
+        fullWidth
+        required
+      />
+
+      <div>
         <Button type="submit" variant="contained">
           {" "}
           Sign In
         </Button>
-        <p>
-          Create an account first?{" "}
-          <span className="text-primary link-text">
-            {" "}
-            <Link to={`/register`}>Register</Link>
-          </span>
-        </p>
-      </Box>
-    </div>
+      </div>
+      <p>
+        Create an account first?{" "}
+        <span className="text-primary link-text">
+          {" "}
+          <Link to={`/register`}>Register</Link>
+        </span>
+      </p>
+    </Box>
   );
 };
 

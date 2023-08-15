@@ -71,86 +71,88 @@ const UserEdit = () => {
 
   return (
     <>
-      <Button onClick={() => navigate(-1)} variant="outlined">
-        Go back
-      </Button>
-      <>
-        <h1>Edit User</h1>
-        {loadingUpdate && <Loader />}
-        {/* {errorUpdate && <Message variant="danger">{errorUpdate}</Message>} */}
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <h1>Error</h1>
-        ) : (
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1 },
-              display: "flex",
-              flexDirection: "column",
-            }}
-            noValidate
-            autoComplete="off"
-            onSubmit={submitHandler}
-          >
-            <TextField
-              id="name"
-              type="name"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              label="Name"
-              variant="outlined"
+      {loadingUpdate && <Loader />}
+      {/* {errorUpdate && <Message variant="danger">{errorUpdate}</Message>} */}
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <h1>Error</h1>
+      ) : (
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1 },
+            display: "flex",
+            flexDirection: "column",
+            margin: "auto",
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={submitHandler}
+          width="40%"
+        >
+          <h1>Edit User</h1>
+          <div>
+            <Button onClick={() => navigate(-1)}>Go Back</Button>
+          </div>
+          <TextField
+            id="name"
+            type="name"
+            name="name"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            label="Name"
+            variant="outlined"
+          />
+
+          <TextField
+            id="email"
+            type="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            label="Email"
+            variant="outlined"
+          />
+
+          <FormControl required sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="role">Role</InputLabel>
+            <Select
+              labelId="role"
+              id="role"
+              name="role"
+              value={role}
+              label="Role *"
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="teacher">Teacher</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
+            </Select>
+            <FormHelperText>Required</FormHelperText>
+          </FormControl>
+
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isRegistered == true}
+                  onChange={(e) => setIsRegistered(!isRegistered)}
+                />
+              }
+              label="Registered"
             />
+          </FormGroup>
 
-            <TextField
-              id="email"
-              type="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              label="Email"
-              variant="outlined"
-            />
-
-            <FormControl required sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="role">Role</InputLabel>
-              <Select
-                labelId="role"
-                id="role"
-                name="role"
-                value={role}
-                label="Role *"
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="teacher">Teacher</MenuItem>
-                <MenuItem value="student">Student</MenuItem>
-              </Select>
-              <FormHelperText>Required</FormHelperText>
-            </FormControl>
-
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isRegistered == true}
-                    onChange={(e) => setIsRegistered(!isRegistered)}
-                  />
-                }
-                label="Registered"
-              />
-            </FormGroup>
-
-            <Button type="submit" variant="primary">
+          <div>
+            <Button type="submit" variant="contained" size="large">
               Update
             </Button>
-          </Box>
-        )}
-      </>
+          </div>
+        </Box>
+      )}
     </>
   );
 };

@@ -62,16 +62,21 @@ const StudentSearch = () => {
 
   return (
     <div>
+      <h2 style={{ margin: 0 }}>Available Teachers</h2>
       <Box
         component="form"
         sx={{
           "& > :not(style)": { m: 1 },
+          display: "grid",
+          gridTemplateColumns: "240px 240px 30px",
+          gridTemplateRows: "1fr",
+          gap: "20px",
         }}
         noValidate
         autoComplete="off"
         onSubmit={submitHandler}
       >
-        <FormControl fullWidth>
+        <FormControl>
           <InputLabel id="demo-simple-select-label">Department</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -109,9 +114,15 @@ const StudentSearch = () => {
           </Select>
         </FormControl>
 
-        <Button variant="contained" type="submit">
-          Search
-        </Button>
+        <div>
+          <Button
+            variant="contained"
+            type="submit"
+            style={{ marginTop: "10px" }}
+          >
+            Search
+          </Button>
+        </div>
       </Box>
 
       <TableContainer component={Paper}>
@@ -158,7 +169,7 @@ const StudentSearch = () => {
                       row.availability.map((slot) => {
                         return slot.isBooked === false ? (
                           <Link
-                            to={`/appointment-request/${slot._id}`}
+                            to={`/appointment/submit/${slot._id}`}
                             key={slot._id}
                             state={{
                               teacherName: row.userId.name,
@@ -174,7 +185,7 @@ const StudentSearch = () => {
                                   : [course],
                             }}
                           >
-                            <Button variant="outlined">
+                            <Button>
                               {DateTime.fromISO(slot.from).toFormat(
                                 "yyyy-MM-dd"
                               )}

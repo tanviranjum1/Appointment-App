@@ -4,6 +4,15 @@ import { deleteAvailability } from "../actions/teacherActions";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../share/Loader";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 const Availability = ({ availability }) => {
   const dispatch = useDispatch();
@@ -24,21 +33,25 @@ const Availability = ({ availability }) => {
   };
 
   const availabilityItems = availability.map((av) => (
-    <tr key={av._id}>
-      <td>{DateTime.fromISO(av.from).toFormat("cccc")}</td>
-      <td> {DateTime.fromISO(av.from).toFormat("yyyy-MM-dd")}</td>
-      <td>
+    <TableRow
+      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      key={av._id}
+    >
+      <TableCell>{DateTime.fromISO(av.from).toFormat("yyyy-MM-dd")}</TableCell>
+      <TableCell component="th" scope="row">
+        {DateTime.fromISO(av.from).toFormat("cccc")}
+      </TableCell>
+      <TableCell>
         {DateTime.fromISO(av.from).toFormat("hh:mm a")} -{" "}
         {DateTime.fromISO(av.to).toFormat("hh:mm a")}
-      </td>
-      <td>
-        <Button onClick={() => deleteHandler(av._id)} variant="outlined">
+      </TableCell>
+      <TableCell align="center">
+        <Button onClick={() => deleteHandler(av._id)}>
           {" "}
-          Delete
+          <DeleteOutlinedIcon />
         </Button>
-      </td>
-      <td></td>
-    </tr>
+      </TableCell>
+    </TableRow>
   ));
 
   return (
@@ -46,18 +59,19 @@ const Availability = ({ availability }) => {
       {loadingDelete && <Loader />}
       {errorDelete && <h1 variant="danger">{errorDelete}</h1>}
 
-      <h2>Availability</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>Date</th>
-            <th>Available Time</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{availabilityItems}</tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Day</TableCell>
+              <TableCell>Free Slot</TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{availabilityItems}</TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

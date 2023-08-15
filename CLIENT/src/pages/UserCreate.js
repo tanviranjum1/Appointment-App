@@ -103,6 +103,9 @@ const UserCreate = () => {
       width="40%"
     >
       <h1>Create New User</h1>
+      <div>
+        <Button onClick={() => navigate(-1)}>Go Back</Button>
+      </div>
       {loading && <Loader />}
       <TextField
         id="name"

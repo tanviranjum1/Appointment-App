@@ -71,7 +71,9 @@ const getCoursesAndDepartments = asyncHandler(async (req, res) => {
 // logged in user, get appointments of student using token id.
 const getAppointmentsOfStudent = asyncHandler(async (req, res) => {
   try {
-    const appointments = await Appointment.find({ studentUserId: req.user.id });
+    const appointments = await Appointment.find({
+      studentUserId: req.user.id,
+    }).populate("teacherUserId", "name");
 
     res.json(appointments);
   } catch (err) {

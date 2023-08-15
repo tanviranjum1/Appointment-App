@@ -84,10 +84,9 @@ const Register = () => {
     <Box
       component="form"
       sx={{
-        "& > :not(style)": { m: 1 },
-        display: "flex",
-        flexDirection: "column",
         margin: "auto",
+        display: "grid",
+        gap: "20px",
       }}
       noValidate
       autoComplete="off"
@@ -107,6 +106,7 @@ const Register = () => {
         value={name}
         label="Name"
         variant="outlined"
+        fullWidth
       />
 
       <TextField
@@ -117,9 +117,10 @@ const Register = () => {
         value={email}
         label="Email"
         variant="outlined"
+        fullWidth
       />
 
-      <FormControl required sx={{ m: 1, minWidth: 120 }}>
+      <FormControl required fullWidth>
         <InputLabel id="role">Role</InputLabel>
         <Select
           labelId="role"
@@ -135,7 +136,6 @@ const Register = () => {
           <MenuItem value="teacher">Teacher</MenuItem>
           <MenuItem value="student">Student</MenuItem>
         </Select>
-        <FormHelperText>Required</FormHelperText>
       </FormControl>
 
       {role == "student" && (
@@ -148,6 +148,7 @@ const Register = () => {
             value={studentId}
             label="Student ID"
             variant="outlined"
+            fullWidth
           />
 
           <TextField
@@ -158,6 +159,7 @@ const Register = () => {
             value={department}
             label="Department"
             variant="outlined"
+            fullWidth
           />
         </>
       )}
@@ -170,6 +172,7 @@ const Register = () => {
         value={password}
         label="Password"
         variant="outlined"
+        fullWidth
       />
 
       <TextField
@@ -181,6 +184,7 @@ const Register = () => {
         value={password2}
         label="Confirm Password"
         variant="outlined"
+        fullWidth
       />
 
       <div>

@@ -13,7 +13,6 @@ import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 import { useDispatch, useSelector } from "react-redux";
 import { TEACHER_PROFILE_ADD_AVAILABILITY_RESET } from "../constants/teacherConstant";
 import { Button } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
 
 const AddAvailability = () => {
   const [freeDate, setFreeDate] = useState(dayjs(new Date()));
@@ -35,7 +34,7 @@ const AddAvailability = () => {
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: TEACHER_PROFILE_ADD_AVAILABILITY_RESET });
-      navigate("/teacherdashboard");
+      navigate("/");
     }
   }, [dispatch, successCreate]);
 
@@ -72,21 +71,21 @@ const AddAvailability = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
           }}
         >
           <h1 className="large text-primary">Add A Free Slot</h1>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
-              components={["DatePicker", "TimePicker"]}
+              components={["DatePicker", "TimePicker", "TimePicker"]}
               sx={{
-                width: "100%", // Adjust width as needed
-                "& > :not(style)": {
-                  marginBottom: "20px", // Add vertical spacing
-                },
+                "& > :not(style)": { m: 1 },
+                display: "flex",
+                flexDirection: "column",
+                width: "40%",
+                marginBottom: "20px",
               }}
             >
-              <DateTimePicker
+              <DatePicker
                 label="Date"
                 id="component-date"
                 name="date"
@@ -129,22 +128,18 @@ const AddAvailability = () => {
             </DemoContainer>
           </LocalizationProvider>
 
-          <div
-            style={{
-              display: "flex",
-              marginTop: "20px",
-            }}
-          >
+          <div>
             <Button
               type="submit"
               variant="contained"
               color="success"
               size="large"
-              style={{ marginRight: "20px" }}
             >
               Add
             </Button>
-            <Link to="/teacherdashboard">Go Back</Link>
+            <Link to="/" style={{ marginLeft: "20px" }}>
+              Go Back
+            </Link>
           </div>
         </Box>
       )}

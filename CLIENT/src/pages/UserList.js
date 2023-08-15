@@ -71,27 +71,27 @@ const UserList = () => {
     }
   };
 
-  const registerHandler = (id) => {
-    if (window.confirm("Are you sure to register the user")) {
-      dispatch(adminRegisterUser({ _id: id }));
-    }
-  };
-
   console.log("users", users);
 
   return (
     <>
       <h1>User List</h1>
+      <Link to="/user/create">
+        <Button>Create User</Button>
+      </Link>
       <Box
         component="form"
         sx={{
           "& > :not(style)": { m: 1 },
+          display: "grid",
+          gridTemplateColumns: "240px 30px",
+          gridTemplateRows: "1fr",
         }}
         noValidate
         autoComplete="off"
         onSubmit={submitHandler}
       >
-        <FormControl fullWidth>
+        <FormControl>
           <InputLabel id="demo-simple-select-label">User</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -111,9 +111,11 @@ const UserList = () => {
           </Select>
         </FormControl>
 
-        <Button variant="contained" type="submit">
-          Search
-        </Button>
+        <div>
+          <Button variant="contained" type="submit">
+            Search
+          </Button>
+        </div>
       </Box>
 
       {loading ? (
@@ -125,46 +127,53 @@ const UserList = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell align="right">NAME</StyledTableCell>
-                <StyledTableCell align="right">EMAIL</StyledTableCell>
-                <StyledTableCell align="right">ROLE</StyledTableCell>
-                <StyledTableCell align="right">ISREGISTERED</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
+                <StyledTableCell style={{ display: "none" }}>
+                  ID
+                </StyledTableCell>
+                <StyledTableCell>NAME</StyledTableCell>
+                <StyledTableCell>EMAIL</StyledTableCell>
+                <StyledTableCell>ROLE</StyledTableCell>
+                <StyledTableCell>ISREGISTERED</StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {users &&
                 users.map((user) => (
                   <StyledTableRow key={user._id}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell
+                      style={{ display: "none" }}
+                      component="th"
+                      scope="row"
+                    >
                       {user._id}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{user.name}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.email}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{user.role}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.isRegistered === false ? (
-                        <Button
-                          variant="outlined"
-                          onClick={() => registerHandler(user._id)}
-                        >
-                          Register
-                        </Button>
-                      ) : (
-                        <p>
-                          {user.isRegistered ? "Registered" : "Not Registered"}
-                        </p>
-                      )}
-                    </StyledTableCell>
+                    <StyledTableCell>{user.name}</StyledTableCell>
+                    <StyledTableCell>{user.email}</StyledTableCell>
+                    <StyledTableCell>{user.role}</StyledTableCell>
                     <StyledTableCell>
+                      {user.isRegistered ? "Registered" : "Unregistered"}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
                       <Link to={`/user/${user._id}/edit`}>
-                        <Button variant="contained"> EDIT</Button>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          color="secondary"
+                        >
+                          {" "}
+                          EDIT
+                        </Button>
                       </Link>
                       <Button
-                        variant="danger"
+                        variant="contained"
+                        color="info"
+                        size="small"
                         onClick={() => deleteHandler(user._id)}
                       >
                         DELETE

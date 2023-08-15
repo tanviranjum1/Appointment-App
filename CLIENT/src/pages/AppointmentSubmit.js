@@ -77,6 +77,8 @@ const AppointmentSubmit = () => {
     console.log("submitData", submitData);
 
     await dispatch(createAppointment(submitData));
+
+    navigate("/student-search");
   };
 
   const changeHandler = (event) => {
@@ -95,32 +97,29 @@ const AppointmentSubmit = () => {
           m: 1,
           display: "flex",
           flexDirection: "column",
-          width: "75ch",
+          marginBottom: "20px",
         },
       }}
       noValidate
       autoComplete="off"
       onSubmit={submitHandler}
+      width="40%"
     >
-      <h2>Appointment Request</h2>
-      <Button onClick={() => navigate(-1)} variant="outlined">
-        Go back
-      </Button>
+      <h2 style={{ margin: "0" }}>Create Appointment</h2>
 
       <TextField
         id="standard-multiline-static"
         label="Agenda"
         placeholder="write Agenda"
         multiline
-        rows={2}
-        variant="standard"
+        rows={3}
         focused
         value={agenda}
         onChange={changeHandler}
         name="agenda"
       />
 
-      <FormControl fullWidth>
+      <FormControl sx={{ m: 1, width: "500px" }}>
         <InputLabel id="demo-simple-select-label">Courses</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -143,40 +142,56 @@ const AppointmentSubmit = () => {
         id="standard-teachername"
         label="Teacher Name"
         type="text"
-        variant="standard"
         value={teachername}
-        focused
         name="teachername"
+        InputProps={{
+          readOnly: true,
+        }}
+        disabled
       />
 
       <TextField
-        id="standard-teachername"
+        id="standard-teacherdate"
         label="Teacher Available Date"
         type="text"
-        variant="standard"
         value={dayjs(from).format("YYYY-MM-DD")}
         name="availabledate"
+        InputProps={{
+          readOnly: true,
+        }}
+        disabled
       />
 
       <TextField
         id="standard-from"
         type="text"
-        variant="standard"
         value={dayjs.utc(from).format("HH:mm A")}
         name="from"
+        label="Start Time"
+        InputProps={{
+          readOnly: true,
+        }}
+        disabled
       />
 
       <TextField
         id="standard-to"
         type="text"
-        variant="standard"
         value={dayjs.utc(to).format("HH:mm A")}
         name="to"
+        label="End Time"
+        InputProps={{
+          readOnly: true,
+        }}
+        disabled
       />
 
-      <Button variant="contained" type="submit">
-        Submit
-      </Button>
+      <div>
+        <Button variant="contained" size="large" type="submit">
+          Submit
+        </Button>
+        <Button onClick={() => navigate(-1)}>Go back</Button>
+      </div>
     </Box>
   );
 };

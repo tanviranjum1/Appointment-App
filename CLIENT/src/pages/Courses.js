@@ -3,6 +3,15 @@ import { deleteCourse } from "../actions/teacherActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../share/Loader";
 import Button from "@mui/material/Button";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 const Courses = ({ courses }) => {
   const dispatch = useDispatch();
@@ -21,15 +30,21 @@ const Courses = ({ courses }) => {
   };
 
   const courseList = courses.map((cr) => (
-    <tr key={cr._id}>
-      <td>{cr.department}</td>
-      <td>{cr.courseTitle}</td>
-      <td>
-        <Button onClick={() => deleteHandler(cr._id)} variant="contained">
-          Delete
+    <TableRow
+      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      key={cr._id}
+    >
+      <TableCell component="th" scope="row">
+        {cr.courseTitle}
+      </TableCell>
+      <TableCell>{cr.department}</TableCell>
+      <TableCell align="center">
+        <Button onClick={() => deleteHandler(cr._id)}>
+          {" "}
+          <DeleteOutlinedIcon />
         </Button>
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   ));
 
   return (
@@ -37,17 +52,18 @@ const Courses = ({ courses }) => {
       {loadingDelete && <Loader />}
       {errorDelete && <h1 color="danger">{errorDelete}</h1>}
 
-      <h2 className="my-2">Courses</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Department</th>
-            <th>Course</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{courseList}</tbody>
-      </table>
+      <TableContainer component={Paper}>
+        <Table sx={{ width: 320 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Course</TableCell>
+              <TableCell>Department</TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{courseList}</TableBody>
+        </Table>
+      </TableContainer>
     </Fragment>
   );
 };

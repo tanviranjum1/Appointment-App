@@ -11,7 +11,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 
 const StudentAppointmentList = () => {
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const StudentAppointmentList = () => {
 
   return (
     <>
-      <h1>Appointments Requested By You</h1>
+      <h1>My Appointment History</h1>
 
       {loading ? (
         <Loader />
@@ -53,7 +52,7 @@ const StudentAppointmentList = () => {
                 <StyledTableCell align="right">RequestedTo</StyledTableCell>
                 <StyledTableCell align="right">Date</StyledTableCell>
                 <StyledTableCell align="right">Duration</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
+                <StyledTableCell align="right">Status</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -71,7 +70,9 @@ const StudentAppointmentList = () => {
                     </StyledTableCell>
                     <StyledTableCell align="right"></StyledTableCell>
                     <StyledTableCell align="right"></StyledTableCell>
-                    <td>{appointment.status}</td>
+                    <StyledTableCell align="right">
+                      {appointment.status}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
             </TableBody>

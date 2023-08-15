@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
 import React from "react";
-import { Link } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -18,11 +17,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import PersonSearchRoundedIcon from "@mui/icons-material/PersonSearchRounded";
-import ApprovalIcon from "@mui/icons-material/Approval";
 
 import { DrawerHeader } from "../styles/DrawerHeader";
 
@@ -127,11 +125,9 @@ const SideBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Link to="/">
-            <Typography variant="h6" noWrap component="div">
-              Appointment App
-            </Typography>
-          </Link>
+          <Typography variant="h6" noWrap component="div">
+            Appointment
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -146,126 +142,54 @@ const SideBar = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {userInfo && userInfo.role == "admin" && (
-            <Link to="/users">
-              <ListItem key="Users" disablePadding sx={{ display: "block" }}>
-                <ListItemButton
+          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <GroupOutlinedIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Users"
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          )}
-
-          {userInfo && userInfo.role == "student" && (
-            <>
-              <Link to="/student-search">
-                <ListItem
-                  key="Teachers"
-                  disablePadding
-                  sx={{ display: "block" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <PersonSearchRoundedIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Teachers"
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              <Link to="/student/appointments">
-                <ListItem
-                  key="studentappointments"
-                  disablePadding
-                  sx={{ display: "block" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <ApprovalIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Appointment History"
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            </>
-          )}
-
-          {userInfo && userInfo.role == "teacher" && (
-            <Link to="/teacher/appointment/requests">
-              <ListItem key="Request" disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ApprovalIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Request Approval"
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          )}
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
+        <List>
+          {["All mail", "Trash", "Spam"].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
         <List>
           <ListItem disablePadding sx={{ display: "block" }}>
             {userInfo ? (
@@ -289,29 +213,24 @@ const SideBar = () => {
                 <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             ) : (
-              <Link to="/login">
-                <ListItemButton
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <LoginIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Sign in"
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </Link>
+                  <LoginIcon />
+                </ListItemIcon>
+                <ListItemText primary="SignIn" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
             )}
           </ListItem>
         </List>

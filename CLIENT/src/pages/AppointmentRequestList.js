@@ -29,8 +29,6 @@ const AppointmentRequestList = () => {
   );
   const { loading, error, appointments } = appointmentListForTeacher;
 
-  console.log("appointments", appointments);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -66,11 +64,15 @@ const AppointmentRequestList = () => {
 
   return (
     <>
-      <h1>Appointment Request List</h1>
+      <h1>Appointment Requests</h1>
       <Box
         component="form"
         sx={{
           "& > :not(style)": { m: 1 },
+          display: "grid",
+          gridTemplateColumns: "240px 30px",
+          gridTemplateRows: "1fr",
+          gap: "20px",
         }}
         noValidate
         autoComplete="off"
@@ -98,9 +100,11 @@ const AppointmentRequestList = () => {
           </Select>
         </FormControl>
 
-        <Button variant="contained" type="submit">
-          Search
-        </Button>
+        <div>
+          <Button variant="contained" type="submit">
+            Search
+          </Button>
+        </div>
       </Box>
 
       {loading ? (
@@ -112,13 +116,12 @@ const AppointmentRequestList = () => {
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                {/* <StyledTableCell>ID</StyledTableCell> */}
                 <StyledTableCell>Agenda</StyledTableCell>
-                <StyledTableCell align="right">Course</StyledTableCell>
-                <StyledTableCell align="right">RequestedBy</StyledTableCell>
-                <StyledTableCell align="right">Date</StyledTableCell>
-                <StyledTableCell align="right">Duration</StyledTableCell>
-                <StyledTableCell align="right"></StyledTableCell>
+                <StyledTableCell>Course</StyledTableCell>
+                <StyledTableCell>RequestedBy</StyledTableCell>
+                <StyledTableCell>Date</StyledTableCell>
+                <StyledTableCell>Duration</StyledTableCell>
+                <StyledTableCell></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -128,26 +131,28 @@ const AppointmentRequestList = () => {
                     <StyledTableCell component="th" scope="row">
                       {appointment.agenda}
                     </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {appointment.courseTitle}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
+                    <StyledTableCell>{appointment.courseTitle}</StyledTableCell>
+                    <StyledTableCell>
                       {appointment.studentUserId.name}
                     </StyledTableCell>
-                    <StyledTableCell align="right"></StyledTableCell>
-                    <StyledTableCell align="right"></StyledTableCell>
-                    <td>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell>
                       {appointment.status == "Submitted" ? (
                         <>
                           <Button
-                            variant="outlined"
+                            variant="contained"
+                            color="success"
                             onClick={() => approveHandler(appointment._id)}
+                            size="small"
                           >
                             APPROVE
                           </Button>
                           <Button
-                            variant="outlined"
+                            variant="contained"
+                            style={{ marginLeft: "20px" }}
                             onClick={() => rejectHandler(appointment._id)}
+                            size="small"
                           >
                             {" "}
                             REJECT
@@ -156,7 +161,7 @@ const AppointmentRequestList = () => {
                       ) : (
                         <p>{appointment.status}</p>
                       )}
-                    </td>
+                    </StyledTableCell>{" "}
                   </StyledTableRow>
                 ))}
             </TableBody>

@@ -37,7 +37,7 @@ const AddCourse = () => {
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: TEACHER_PROFILE_ADD_COURSE_RESET });
-      navigate("/teacherdashboard");
+      navigate("/");
     }
   }, [dispatch, successCreate]);
 
@@ -64,22 +64,7 @@ const AddCourse = () => {
           noValidate
           autoComplete="off"
           onSubmit={submitHandler}
-          width="40%"
         >
-          <FormControl variant="standard">
-            <InputLabel shrink htmlFor="bootstrap-input">
-              Department Name
-            </InputLabel>
-            <BootstrapInput
-              id="component-department"
-              type="text"
-              name="department"
-              required
-              value={department}
-              onChange={(e) => onChange(e)}
-            />
-          </FormControl>
-
           <FormControl variant="standard">
             <InputLabel shrink htmlFor="bootstrap-input">
               Course Name
@@ -94,11 +79,27 @@ const AddCourse = () => {
             />
           </FormControl>
 
+          <FormControl variant="standard">
+            <InputLabel shrink htmlFor="bootstrap-input">
+              Department Name
+            </InputLabel>
+            <BootstrapInput
+              id="component-department"
+              type="text"
+              name="department"
+              required
+              value={department}
+              onChange={(e) => onChange(e)}
+            />
+          </FormControl>
+
           <div>
             <Button type="submit" variant="contained">
               Add
             </Button>
-            <Link to="/teacherdashboard">Go Back</Link>
+            <Link to="/" style={{ marginLeft: "20px" }}>
+              Go Back
+            </Link>
           </div>
         </Box>
       )}
